@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Businnes.Data.Iterfaces
+namespace Business.Data.Interfaces
 {
     public interface IBaseEntity
     {

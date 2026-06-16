@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using Businnes.Data.Iterfaces;
+using Business.Data.Interfaces;
 
-namespace Businnes.Data.BaseEntities
+namespace Business.Data.BaseEntities
 {
     public class BaseEntity : Entity, IBaseEntity
     {

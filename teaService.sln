@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Businnes.Data", "Businnes.Data\Businnes.Data.csproj", "{84A9B98E-3987-4C7D-B490-57164047F1DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.Data", "Business.Data\Business.Data.csproj", "{84A9B98E-3987-4C7D-B490-57164047F1DC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseToAccess", "DatabaseToAccess\DatabaseToAccess.csproj", "{4F0036F0-C76D-4F70-92B6-D4ABDE6ADAB7}"
 EndProject
@@ -15,9 +15,6 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{84A9B98E-3987-4C7D-B490-57164047F1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -36,5 +33,8 @@ Global
 		{A37B02A8-6F8F-4EAA-B5B0-8F9B22DF85D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A37B02A8-6F8F-4EAA-B5B0-8F9B22DF85D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A37B02A8-6F8F-4EAA-B5B0-8F9B22DF85D6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

@@ -1,6 +1,6 @@
-namespace Businnes.Data.Iterfaces
+namespace Business.Data.Interfaces
 {
-     public interface IEntity
+    public interface IEntity
     {
         public DateTime DateCreate { get; set; }
         public DateTime DateUpdate { get; set; }
