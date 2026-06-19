@@ -7,11 +7,11 @@ namespace Business.Data.Models
     {
         public decimal Amount {get; set;}
         
-        [ForeignKey("Ingredient")]
+        [ForeignKey(nameof(IngredientId))]
         public Ingredient Ingredient {get; set;}
         public Guid IngredientId {get; set;}
 
-        [ForeignKey("Tea")]
+        [ForeignKey(nameof(TeaId))]
         public Tea Tea {get; set;}
         public Guid TeaId {get; set;}
     }

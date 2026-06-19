@@ -8,10 +8,10 @@ namespace Business.Data.Models
         public decimal Amount {get; set;}
         public Guid UserId {get; set;}
 
-        [ForeignKey("User")]
+        [ForeignKey(nameof(UserId))]
         public User User {get; set;}
 
-        [ForeignKey("Ingredient")]
+        [ForeignKey(nameof(IngredientId))]
         public Ingredient Ingredient {get; set;}
         public Guid IngredientId {get; set;}
     }

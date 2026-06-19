@@ -8,7 +8,19 @@ namespace DatabaseToAccess
     {
         public BaseDbContext CreateDbContext(string[] args)
         {
-            var basePath = Path.Combine(Directory.GetCurrentDirectory(), "GatewayApi");
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var basePath = Path.Combine(currentDirectory, "GatewayApi");
+
+            if (!Directory.Exists(basePath))
+            {
+                basePath = Path.GetFullPath(Path.Combine(currentDirectory, "..", "GatewayApi"));
+            }
+
+            if (!Directory.Exists(basePath))
+            {
+                throw new DirectoryNotFoundException($"GatewayApi directory was not found. Current directory: {currentDirectory}");
+            }
+
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(basePath)
                 .AddJsonFile("appsettings.json")
@@ -16,7 +28,9 @@ namespace DatabaseToAccess
 
             var optionsBuilder = new DbContextOptionsBuilder<BaseDbContext>();
 
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = configuration.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' was not found.");
+
             optionsBuilder.UseNpgsql(connectionString);
 
             return new BaseDbContext(optionsBuilder.Options);

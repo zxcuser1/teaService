@@ -11,7 +11,7 @@ namespace Business.Data.Models
         public bool IsVerified {get; set;} = false;
         public bool IsBanned {get; set;} = false;
 
-        [ForeignKey("Role")]
+        [ForeignKey(nameof(RoleId))]
         public Role Role {get; set;}
         public Guid RoleId {get; set;}
     }
