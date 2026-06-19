@@ -9,5 +9,6 @@ namespace Business.Data.Models
         public string Description {get; set;} = string.Empty;
         public bool IsDeleted {get; set;} = false;
         public bool IsModerated {get; set;} = false;
+        public List<TeaIngredient> TeaIngredients {get; set;} = [];
     }
 }

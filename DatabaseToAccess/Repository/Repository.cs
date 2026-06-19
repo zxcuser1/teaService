@@ -7,7 +7,7 @@ namespace DatabaseToAccess.Repository
     public class Repository<T> : IRepository<T> where T : class, IBaseEntity
     {
         private readonly BaseDbContext _context;
-        private readonly DbSet<T> _dbSet;
+        protected readonly DbSet<T> _dbSet;
         public Repository(BaseDbContext context)
         {
             _context = context;

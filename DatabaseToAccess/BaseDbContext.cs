@@ -19,7 +19,7 @@ namespace DatabaseToAccess
 
             modelBuilder.Entity<TeaIngredient>()
             .HasOne(ti => ti.Tea)
-            .WithMany()
+            .WithMany(t => t.TeaIngredients)
             .HasForeignKey(ti => ti.TeaId)
             .OnDelete(DeleteBehavior.Cascade);
             
