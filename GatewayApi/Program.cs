@@ -1,5 +1,7 @@
 using DatabaseToAccess;
+using DatabaseToAccess.Repository;
 using Microsoft.EntityFrameworkCore;
+using Service.Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BaseDbContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.AddCors(options =>
     options.AddPolicy(
