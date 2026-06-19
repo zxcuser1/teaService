@@ -14,5 +14,6 @@ namespace Business.Data.Models
         [ForeignKey(nameof(RoleId))]
         public Role Role {get; set;}
         public Guid RoleId {get; set;}
+        public List<UserIngredient> UserIngredients {get; set;} = [];
     }
 }

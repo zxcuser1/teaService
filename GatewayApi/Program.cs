@@ -16,6 +16,7 @@ builder.Services.AddDbContext<BaseDbContext>(opt =>
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<ITeaRepository, TeaRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddCors(options =>
     options.AddPolicy(
