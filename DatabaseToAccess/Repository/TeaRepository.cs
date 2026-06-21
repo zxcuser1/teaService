@@ -15,5 +15,15 @@ namespace DatabaseToAccess.Repository
                             .ThenInclude(ti => ti.Ingredient)
                             .ToListAsync(cancellationToken);
         }
+
+        public async Task<Tea?> GetByIdWithIngredientsAsync(Guid id, CancellationToken token = default)
+        {
+            return await _dbSet
+                                .Include(t => t.TeaIngredients)
+                                .ThenInclude(ti => ti.Ingredient)
+                                .FirstOrDefaultAsync(t => t.Guid == id, token);
+        }
     }
+
+    
 }

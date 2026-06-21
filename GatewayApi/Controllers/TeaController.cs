@@ -1,18 +1,26 @@
+using Business.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Service.Application.TeaMatchService;
+using GateWayApi.Contracts.Tea;
+using Service.Application.Interfaces;
 
 namespace GateWayApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TeaController : ControllerBase
+    public class TeaController : CrudController<Tea, TeaRequestDto, TeaResponseDto>
     {
         private readonly TeaMatchService _teaMatchService;
         private readonly ILogger<TeaController> _logger;
-        public TeaController(TeaMatchService teaMatchService, ILogger<TeaController> logger)
+        private readonly ITeaRepository _teaRepository;
+        public TeaController(
+                TeaMatchService teaMatchService,
+                ILogger<TeaController> logger,
+                ITeaRepository teaRepository) : base(teaRepository)
         {
             _teaMatchService = teaMatchService;
             _logger = logger;
+            _teaRepository = teaRepository;
         }
 
         [HttpGet("tea-match")]
@@ -30,9 +38,66 @@ namespace GateWayApi.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError($"{e}");
+                _logger.LogError(e, "Error while getting tea match");
                 return StatusCode(500, "Internal server error");
             }
+        }
+
+        public override async Task<ActionResult> GetById(Guid id, CancellationToken token)
+        {
+            var tea = await _teaRepository.GetByIdWithIngredientsAsync(id, token);
+
+            if (tea == null) return NotFound();
+
+            return Ok(
+                new TeaDetailsResponseDto
+                {
+                    TeaId = tea.Guid,
+                    Name = tea.Name,
+                    Description = tea.Description,
+                    Image = tea.Image,
+                    Ingredients = tea.TeaIngredients.Select(ti => new TeaIngredientResponseDto
+                    {
+                        IngredientId = ti.IngredientId,
+                        Name = ti.Ingredient.Name,
+                        Amount = ti.Amount
+                    }).ToList()
+                }
+            );
+        }
+
+        protected override void ApplyDtoToEntity(Tea entity, TeaRequestDto dto)
+        {
+            entity.Name = dto.Name ?? entity.Name;
+            entity.Description = dto.Description ?? entity.Description;
+            entity.Image = dto.Image ?? entity.Image;
+            entity.IsModerated = false;
+        }
+
+        protected override Guid GetDtoId(TeaRequestDto dto)
+        {
+            return dto.TeaId;
+        }
+
+        protected override TeaResponseDto MapToDto(Tea entity)
+        {
+            return new TeaResponseDto
+            {
+                TeaId = entity.Guid,
+                Name = entity.Name,
+                Description = entity.Description,
+                Image = entity.Image
+            };
+        }
+
+        protected override Tea MapToEntity(TeaRequestDto dto)
+        {
+            return new Tea
+            {
+                Name = dto.Name ?? string.Empty,
+                Description = dto.Description ?? string.Empty,
+                Image = dto.Image ?? string.Empty
+            };
         }
     }
 }

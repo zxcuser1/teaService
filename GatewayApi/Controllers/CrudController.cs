@@ -24,7 +24,7 @@ namespace GateWayApi.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<ActionResult> GetById(Guid id, CancellationToken token)
+        public virtual async Task<ActionResult> GetById(Guid id, CancellationToken token)
         {
             var entity = await _repository.GetByIdAsync(id, token);
 
