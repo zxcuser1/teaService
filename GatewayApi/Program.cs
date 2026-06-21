@@ -2,6 +2,7 @@ using DatabaseToAccess;
 using DatabaseToAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 using Service.Application.Interfaces;
+using Service.Application.TeaMatchService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,7 @@ builder.Services.AddDbContext<BaseDbContext>(opt =>
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<ITeaRepository, TeaRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-
+builder.Services.AddScoped<TeaMatchService>();
 builder.Services.AddCors(options =>
     options.AddPolicy(
         "AllowAll",
