@@ -7,5 +7,6 @@ namespace Service.Application.TeaMatchService.Dto
         public string Image {get; set;} = string.Empty;
         public string Description {get; set;} = string.Empty;
         public decimal MatchPercent {get; set;}
+        public bool CanBeMade {get; set;}
     }
 }

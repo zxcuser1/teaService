@@ -33,7 +33,7 @@ namespace Service.Application.TeaMatchService
                 if (tea.TeaIngredients.Count == 0) continue;
 
                 decimal count = 0;
-
+                decimal totalCount = tea.TeaIngredients.Count;
                 foreach (var teaIngredient in tea.TeaIngredients)
                 {
                     if (userIngredients.Contains(teaIngredient.IngredientId)) count++;
@@ -45,7 +45,8 @@ namespace Service.Application.TeaMatchService
                    Name = tea.Name,
                    Image = tea.Image,
                    Description = tea.Description,
-                   MatchPercent = count / tea.TeaIngredients.Count * 100,
+                   MatchPercent = count / totalCount * 100,
+                   CanBeMade = count == totalCount
                 });
             }
 
