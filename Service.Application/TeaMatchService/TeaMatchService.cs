@@ -43,7 +43,7 @@ namespace Service.Application.TeaMatchService
                 {
                    TeaId = tea.Guid,
                    Name = tea.Name,
-                   Image = tea.Image,
+                   Image = tea.ImageUrl,
                    Description = tea.Description,
                    MatchPercent = count / totalCount * 100,
                    CanBeMade = count == totalCount

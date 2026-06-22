@@ -55,7 +55,7 @@ namespace GateWayApi.Controllers
                     TeaId = tea.Guid,
                     Name = tea.Name,
                     Description = tea.Description,
-                    Image = tea.Image,
+                    Image = tea.ImageUrl,
                     Ingredients = tea.TeaIngredients.Select(ti => new TeaIngredientResponseDto
                     {
                         IngredientId = ti.IngredientId,
@@ -70,7 +70,7 @@ namespace GateWayApi.Controllers
         {
             entity.Name = dto.Name ?? entity.Name;
             entity.Description = dto.Description ?? entity.Description;
-            entity.Image = dto.Image ?? entity.Image;
+            entity.ImageUrl = dto.Image ?? entity.ImageUrl;
             entity.IsModerated = false;
         }
 
@@ -86,7 +86,7 @@ namespace GateWayApi.Controllers
                 TeaId = entity.Guid,
                 Name = entity.Name,
                 Description = entity.Description,
-                Image = entity.Image
+                Image = entity.ImageUrl
             };
         }
 
@@ -96,7 +96,7 @@ namespace GateWayApi.Controllers
             {
                 Name = dto.Name ?? string.Empty,
                 Description = dto.Description ?? string.Empty,
-                Image = dto.Image ?? string.Empty
+                ImageUrl = dto.Image ?? string.Empty
             };
         }
     }
