@@ -48,5 +48,6 @@ app.UseRouting();
 app.UseCors("AllowAll");
 
 app.MapControllers();
+app.UseStaticFiles();
 
 app.Run();
