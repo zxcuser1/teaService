@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Application.TeaMatchService;
 using GateWayApi.Contracts.Tea;
 using Service.Application.Interfaces;
+using Business.Data.Enums;
 
 namespace GateWayApi.Controllers
 {
@@ -71,7 +72,7 @@ namespace GateWayApi.Controllers
             entity.Name = dto.Name ?? entity.Name;
             entity.Description = dto.Description ?? entity.Description;
             entity.ImageUrl = dto.Image ?? entity.ImageUrl;
-            entity.IsModerated = false;
+            entity.ModerationStatus = ModerationStatus.Pending;
         }
 
         protected override Guid GetDtoId(TeaRequestDto dto)

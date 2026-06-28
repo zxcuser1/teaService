@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Business.Data.Models;
+using Business.Data.Enums;
 namespace DatabaseToAccess
 {
 
@@ -30,10 +31,10 @@ namespace DatabaseToAccess
             .OnDelete(DeleteBehavior.Restrict);
             
             modelBuilder.Entity<Ingredient>()
-            .HasQueryFilter(i => !i.IsDeleted && i.IsModerated);
+            .HasQueryFilter(i => !i.IsDeleted && i.ModerationStatus == ModerationStatus.Approved);
 
             modelBuilder.Entity<Tea>()
-            .HasQueryFilter(t => !t.IsDeleted && t.IsModerated);
+            .HasQueryFilter(t => !t.IsDeleted && t.ModerationStatus == ModerationStatus.Approved);
             
         }
 

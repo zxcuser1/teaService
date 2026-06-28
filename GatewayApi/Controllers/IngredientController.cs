@@ -1,3 +1,4 @@
+using Business.Data.Enums;
 using Business.Data.Models;
 using GateWayApi.Contracts.Ingredient;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,7 @@ namespace GateWayApi.Controllers
         {
             entity.ImageUrl = dto.ImageUrl ?? entity.ImageUrl;
             entity.Name = dto.Name ?? entity.Name;
-            entity.IsModerated = false;
+            entity.ModerationStatus = ModerationStatus.Pending;
         }
 
         protected override Guid GetDtoId(IngredientRequestDto dto)
