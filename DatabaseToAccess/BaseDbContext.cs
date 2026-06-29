@@ -12,6 +12,8 @@ namespace DatabaseToAccess
         public DbSet<TeaIngredient> TeaIngredients {get;set;}
         public DbSet<User> Users {get;set;}
         public DbSet<UserIngredient> UserIngredients {get;set;}
+        public DbSet<RefreshToken> RefreshTokens {get;set;}
+        public DbSet<UserSession> UserSessions {get;set;}
         public BaseDbContext (DbContextOptions<BaseDbContext> opt) : base(opt) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,7 +31,25 @@ namespace DatabaseToAccess
             .WithMany()
             .HasForeignKey(ti => ti.IngredientId)
             .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<RefreshToken>()
+            .HasOne(token => token.PreviousToken)
+            .WithMany()
+            .HasForeignKey(token => token.PreviousTokenId)
+            .OnDelete(DeleteBehavior.Restrict);
             
+            modelBuilder.Entity<RefreshToken>()
+            .HasIndex(r => r.PreviousTokenId)
+            .IsUnique();
+
+            modelBuilder.Entity<RefreshToken>()
+            .HasIndex(r => r.TokenHash)
+            .IsUnique();
+
+            modelBuilder.Entity<UserSession>()
+            .HasIndex(u => u.CurrentRefreshTokenId)
+            .IsUnique();
+
             modelBuilder.Entity<Ingredient>()
             .HasQueryFilter(i => !i.IsDeleted && i.ModerationStatus == ModerationStatus.Approved);
 
