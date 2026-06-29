@@ -16,18 +16,17 @@ namespace GateWayApi.Controllers
 
         [HttpPost("upload-image")]
         public async Task<ActionResult> UploadImage(
-            [FromForm] IFormFile image,
-            [FromForm] ImageCategory imageCategory,
+            [FromForm] ImageRequestForm requestForm,
             CancellationToken token
         )
         {
-            if (image.Length == 0 || image.Length > 5 * 1024 * 1024)
+            if (requestForm.Image.Length == 0 || requestForm.Image.Length > 5 * 1024 * 1024)
             {
                 return BadRequest("Invalid image size");
             }
 
             var allowedExtensions = new []{ ".jpg", ".jpeg", ".png", ".webp" };
-            var imageExt = Path.GetExtension(image.FileName).ToLowerInvariant();
+            var imageExt = Path.GetExtension(requestForm.Image.FileName).ToLowerInvariant();
 
             if (!allowedExtensions.Contains(imageExt))
             {
@@ -35,7 +34,7 @@ namespace GateWayApi.Controllers
             }
 
             var fileName = $"{Guid.NewGuid()}{imageExt}";
-            var folderName = GetFolderName(imageCategory);
+            var folderName = GetFolderName(requestForm.ImageCategory);
 
             if (string.IsNullOrEmpty(folderName)) 
             {
@@ -51,7 +50,7 @@ namespace GateWayApi.Controllers
             Directory.CreateDirectory(dir);
             await using var stream = System.IO.File.Create(
                     Path.Combine(dir, fileName));
-            await image.CopyToAsync(stream, token);
+            await requestForm.Image.CopyToAsync(stream, token);
 
             return Ok ( new
                 {
