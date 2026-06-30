@@ -3,6 +3,7 @@ using Business.Data.Enums;
 using Service.Application.AuthService.Dto;
 using Service.Application.Interfaces;
 using Service.Application.TokenService;
+using Service.Application.Helpers;
 
 namespace Service.Application.AuthService
 {
@@ -39,12 +40,13 @@ namespace Service.Application.AuthService
         )
         {
             var roleId = (await _roleRepo.GetAllAsync()).FirstOrDefault(r => r.UserRole == Roles.User)!.Guid;
-
+            var passwordHashResult = HashHelper.HashPassword(password);
             var user = new User
             {
                 NickName = nickName,
                 Email = email,
-                PasswordHash = TokenHelper.CreateSHA512(password),
+                PasswordHash = passwordHashResult.PasswordHash,
+                PasswordSalt = passwordHashResult.Salt,
                 RoleId = roleId
             };
 
