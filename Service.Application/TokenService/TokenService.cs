@@ -1,9 +1,9 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text;
 using Business.Data.Models;
 using Microsoft.IdentityModel.Tokens;
+using Service.Application.Helpers;
 using Service.Application.Interfaces;
 
 namespace Service.Application.TokenService
@@ -73,7 +73,7 @@ namespace Service.Application.TokenService
                 var rawToken = Convert.ToHexString(
                     RandomNumberGenerator.GetBytes(32));
                 
-                var tokenHash = CreateSHA512(rawToken);
+                var tokenHash = HashHelper.HashRefreshToken(rawToken);
 
                 var newToken = new RefreshToken
                 {
@@ -107,11 +107,6 @@ namespace Service.Application.TokenService
                 await _unitOfWork.RollbackAsync(CancellationToken.None);
                 throw;
             }
-        }
-
-        public static string CreateSHA512(string input)
-        {
-            return Convert.ToHexString(SHA512.HashData(Encoding.ASCII.GetBytes(input)));
         }
     }
 }
