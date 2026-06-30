@@ -44,7 +44,7 @@ namespace Service.Application.AuthService
             {
                 NickName = nickName,
                 Email = email,
-                Password = TokenHelper.CreateSHA512(password),
+                PasswordHash = TokenHelper.CreateSHA512(password),
                 RoleId = roleId
             };
 

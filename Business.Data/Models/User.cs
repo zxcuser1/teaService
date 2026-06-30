@@ -7,7 +7,8 @@ namespace Business.Data.Models
     {
         public string NickName {get; set;} = string.Empty;
         public string Email {get; set;} = string.Empty;
-        public string Password {get; set;} = string.Empty;
+        public string PasswordHash {get; set;} = string.Empty;
+        public byte[] PasswordSalt {get; set;} = [];
         public bool IsVerified {get; set;} = false;
         public bool IsBanned {get; set;} = false;
 
