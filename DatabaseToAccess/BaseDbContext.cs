@@ -50,6 +50,10 @@ namespace DatabaseToAccess
             .HasIndex(u => u.CurrentRefreshTokenId)
             .IsUnique();
 
+            modelBuilder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+
             modelBuilder.Entity<Ingredient>()
             .HasQueryFilter(i => !i.IsDeleted && i.ModerationStatus == ModerationStatus.Approved);
 
