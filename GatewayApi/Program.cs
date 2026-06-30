@@ -5,13 +5,19 @@ using Service.Application.Interfaces;
 using Service.Application.TeaMatchService;
 using dotenv.net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.OpenApi.Models;
 using Service.Application.AuthService;
+using Service.Application.TokenService;
+using Microsoft.IdentityModel.Tokens;
 
 DotEnv.Load();
 
+var tokenParams = new JwtParams
+(
+    Environment.GetEnvironmentVariable("ISSUER") ?? throw new Exception(".env is not loaded"),
+    Environment.GetEnvironmentVariable("AUDIENCE") ?? throw new Exception(".env is not loaded"),
+    Environment.GetEnvironmentVariable("KEY")?? throw new Exception(".env is not loaded")
+);
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,11 +29,14 @@ builder.Services.AddDbContext<BaseDbContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+builder.Services.AddSingleton(tokenParams);
+
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<ITeaRepository, TeaRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<TeaMatchService>();
 builder.Services.AddScoped<AuthService>();
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -36,11 +45,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = Environment.GetEnvironmentVariable("ISSUER") ?? throw new Exception(".env is not loaded"),
+            ValidIssuer = tokenParams.ISSUER,
             ValidateAudience = true,
-            ValidAudience = Environment.GetEnvironmentVariable("AUDIENCE") ?? throw new Exception(".env is not loaded"),
+            ValidAudience = tokenParams.AUDIENCE,
             ValidateLifetime = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("KEY") ?? throw new Exception(".env is not loaded"))),
+            IssuerSigningKey = tokenParams.KEY,
             ValidateIssuerSigningKey = true,
         };
     });
