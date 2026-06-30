@@ -35,8 +35,10 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<ITeaRepository, TeaRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserSessionRepository, UserSessionRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<TeaMatchService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<TokenHelper>();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
