@@ -29,7 +29,14 @@ namespace Service.Application.AuthService
             _tokenHelper = tokenHelper;
         }
 
-        public async Task<TokenDto> Register(string nickName, string email, string password)
+        public async Task<TokenDto> Register
+        (
+            string nickName,
+            string email,
+            string password,
+            string deviceId,
+            CancellationToken token
+        )
         {
             var roleId = (await _roleRepo.GetAllAsync()).FirstOrDefault(r => r.UserRole == Roles.User)!.Guid;
 
@@ -41,13 +48,14 @@ namespace Service.Application.AuthService
                 RoleId = roleId
             };
 
-            await _userRepo.AddAsync(user);
+            await _userRepo.AddAsync(user, token);
 
-            await _userRepo.SaveChangesAsync();
+            await _userRepo.SaveChangesAsync(token);
 
             return new TokenDto
             {
                 AccessToken = _tokenHelper.GenerateAccessToken(user),
+                RefreshToken = await _tokenHelper.GenerateRefreshTokenAsync(user.Guid, deviceId, token)
             };
         }
     }
